@@ -1,10 +1,17 @@
+Download random music from multiple sources:
+1. Reddit
+2. Last.fm (popular and new releases)
+3. Album of the Year (Monthly)
+
+
+#+begin_src bash
 uv run main.py
+#+end_src
 
-
-Works:
-+ Reddit
-+ Album of the Year
-
-
-Doesn't Work:
-+ Rate Your Music (CloudFlare)
+Problems:
+1. For reddit it takes the top-level comment (which might contain more than just a song name) and
+   searches on Youtube which often can give the wrong result
+2. It tries to avoid double checking the subreddit posts and re-downloading the songs but if the
+   list is not updated at a fine granularity and if the script stops for any reason, there is a good
+   possibility that the titles are already added to the list and will be ignored the next time
+3. Relies on scraping and might get stuck at Cloudflare (RateYourMusic is constantly stuck)
