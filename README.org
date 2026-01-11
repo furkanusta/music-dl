@@ -7,6 +7,9 @@ Download random music from multiple sources:
 6. TRT Muzik
 
 
++ Modify `music_dl/config.py` for the sources
++ Modify `music_dl/scrapers/<scraper>.py` for further configuration (i.e. subreddits, trtmuzik playlist)
+
 #+begin_src bash
 uv run main.py
 #+end_src
