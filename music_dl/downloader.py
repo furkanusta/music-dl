@@ -25,7 +25,10 @@ async def download_track(track_query: str, download_path: str = "_downloads"):
         "--ignore-config",
         "--playlist-items", "1", # In case the link we got was already a playlist
         "--default-search", "ytsearch",
+        # "--download-archive", ".dl_archive.txt"
         "--output", f"{download_path}/%(title)s.%(ext)s",
+        "--simulate",
+        "--print-to-file", "id", "ids.txt",
         f"'{track_query}'",
     ]
 
@@ -43,4 +46,4 @@ async def download_track(track_query: str, download_path: str = "_downloads"):
             f"Stderr: {stderr.decode()}"
         )
 
-    print(f"Successfully downloaded '{track_query}'")
+    print(f"Successfully downloaded '{stdout}'")

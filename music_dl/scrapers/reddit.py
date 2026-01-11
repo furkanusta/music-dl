@@ -19,12 +19,13 @@ class RedditScraper(Scraper):
     subreddits = [
         ("ifyoulikeblank", "search.json?q=flair%3Amusic+OR+title%3Amusic&sort=top&restrict_sr=on&t=month"),
         # "listentothis",
-        # "indieheads"
+        # "musicsuggestions",
     ]
 
     async def get_posts(self) -> List[str]:
         print(f"Scraping Reddit for subreddits: {self.subreddits}")
         posts = []
+        links = []
         async with httpx.AsyncClient() as client:
             for subreddit in self.subreddits:
                 sub      = subreddit[0] if type(subreddit) is tuple else subreddit
@@ -37,19 +38,23 @@ class RedditScraper(Scraper):
                     response.raise_for_status()
 
                     data = response.json()['data']['children']
-                    posts.extend([(sub, post['data']['id']) for post in data])
+                    for post in data:
+                        if post['data']['is_self']:
+                            posts.append(f"{sub}/comments/{post['data']['id']}")
+                        else:
+                            links.append(post['data']['url'])
 
                 except httpx.HTTPStatusError as e:
                     print(f"Error fetching data from Reddit for r/{subreddit}: {e}")
                 except Exception as e:
                     print(f"An unexpected error occurred while scraping r/{subreddit}: {e}")
-        return posts
+        return posts, links
 
     async def get_comments(self, posts: List[str]) -> List[str]:
         comments = []
         async with httpx.AsyncClient() as client:
             for post in posts:
-                url = f"{self.base_url}/{post[0]}/comments/{post[1]}/.json"
+                url = f"{self.base_url}/{post}/.json"
                 print(f"Scraping for comments: {url}")
                 try:
                     # This is a placeholder URL. You'll need to use the Reddit API
@@ -97,13 +102,13 @@ class RedditScraper(Scraper):
         """
         Scrapes music from the configured subreddits.
         """
-        posts    = await self.get_posts()
-        posts = posts[:self.NUM_POSTS]
-        with shelve.open(".db/posts") as db:
-            posts = [post for post in posts if "/".join(post) not in db]
+        posts, links = await self.get_posts()
+        posts        = posts[:self.NUM_POSTS]
+        # with shelve.open(".db/posts") as db:
+        #     posts = [post for post in posts if "/".join(post) not in db]
         comments = await self.get_comments(posts)
         tracks   = await self.get_tracks(comments)
-
+        tracks.extend(links)
         with shelve.open(".db/posts") as db:
             for post in posts:
                 db["/".join(post)] = 1
