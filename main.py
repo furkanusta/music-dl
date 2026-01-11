@@ -2,6 +2,7 @@
 import sys
 import os
 import asyncio
+import shelve
 
 from music_dl.downloader import download_track
 from music_dl.scrapers import get_scrapers
@@ -27,9 +28,11 @@ def remove_duplicates(tracks):
     """
     Removes duplicate tracks from a list.
     """
-    unique_tracks = list(set(tracks))
-    print(f"Removed {len(tracks) - len(unique_tracks)} duplicate tracks.")
-    return unique_tracks
+    tracks = map(lambda x: x.lower(), tracks)
+    tracks = list(set(tracks))
+    with shelve.open(".db/tracks") as db:
+        tracks = [track for track in tracks if track not in db]
+    return tracks
 
 
 async def download_all(tracks):
@@ -53,15 +56,15 @@ async def main():
     print("Starting music discovery...")
     scrapers = get_scrapers()
 
-    discovered_tracks = await discover_music(scrapers)
+    tracks = await discover_music(scrapers)
 
-    unique_tracks = remove_duplicates(discovered_tracks)
+    tracks = remove_duplicates(tracks)
 
-    if not unique_tracks:
-        print("No new music found.")
-        return
+    await download_all([tracks[0]])
 
-    await download_all(unique_tracks)
+    with shelve.open(".db/tracks") as db:
+        for track in tracks:
+            db[track] = 1
 
 
 if __name__ == "__main__":

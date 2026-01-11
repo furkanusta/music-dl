@@ -1,5 +1,6 @@
 import asyncio
 import shutil
+import urllib
 
 
 async def download_track(track_query: str, download_path: str = "downloads"):
@@ -19,13 +20,13 @@ async def download_track(track_query: str, download_path: str = "downloads"):
     args = [
         "yt-dlp",
         "--extract-audio",
-        "--f", "bestaudio",
+        "-f", "bestaudio",
         "--no-playlist",
         "--ignore-config",
         "--playlist-items", "1", # In case the link we got was already a playlist
         "--default-search", "ytsearch",
         "--output", f"{download_path}/%(title)s.%(ext)s",
-        track_query,
+        f"'{track_query}'",
     ]
 
     process = await asyncio.create_subprocess_exec(
