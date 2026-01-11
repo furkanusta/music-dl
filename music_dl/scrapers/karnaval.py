@@ -1,10 +1,15 @@
 from typing import List
 from music_dl.scrapers.base import Scraper
 from parsel import Selector
+import httpx
 
 # Same as kralmuzik but with a slightly different initial selector
 class Karnaval(Scraper):
     base_url = "https://karnaval.com/muzik-listeleri"
+
+    def __init__(self):
+        # Not sure why but brotli breaks it
+        self.headers["Accept-Encoding"] = "gzip, deflate"
 
     async def scrape(self) -> List[str]:
         url = f"{self.base_url}"

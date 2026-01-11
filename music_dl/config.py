@@ -3,4 +3,7 @@ SCRAPER_MODULES = [
     "reddit",
     "albumoftheyear",
     "lastfm",
+    "kralmuzik",
+    "karnaval",
+    "trtmuzik"
 ]

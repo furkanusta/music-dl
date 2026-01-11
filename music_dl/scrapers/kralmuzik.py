@@ -1,5 +1,6 @@
 from typing import List
 from music_dl.scrapers.base import Scraper
+import httpx
 from parsel import Selector
 
 class KralMuzik(Scraper):
