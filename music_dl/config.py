@@ -1,6 +1,7 @@
 # A list of scraper modules to use for discovering music.
 SCRAPER_MODULES = [
-    "reddit",
+    # "reddit",
+    "albumoftheyear"
     # "lastfm",
     # "bandcamp",
 ]

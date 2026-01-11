@@ -16,13 +16,11 @@ class RedditScraper(Scraper):
     NUM_POSTS    = 25
     NUM_COMMENTS = 25
 
-    def __init__(self):
-        # In a real implementation, you might want to pass subreddits, etc.
-        self.subreddits = [
-            ("ifyoulikeblank", "search.json?q=flair%3Amusic+OR+title%3Amusic&sort=top&restrict_sr=on&t=month"),
-            # "listentothis",
-            # "indieheads"
-        ]
+    self.subreddits = [
+        ("ifyoulikeblank", "search.json?q=flair%3Amusic+OR+title%3Amusic&sort=top&restrict_sr=on&t=month"),
+        # "listentothis",
+        # "indieheads"
+    ]
 
     async def get_posts(self) -> List[str]:
         print(f"Scraping Reddit for subreddits: {self.subreddits}")

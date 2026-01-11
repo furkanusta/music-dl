@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "A tool to discover and download music."
 requires-python = ">=3.8"
 dependencies = [
-    "httpx",
+    "httpx[http2]",
     "parsel",
     "yt-dlp",
 ]
