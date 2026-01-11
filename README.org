@@ -1,1 +1,10 @@
-python -m main
+uv run main.py
+
+
+Works:
++ Reddit
++ Album of the Year
+
+
+Doesn't Work:
++ Rate Your Music (CloudFlare)

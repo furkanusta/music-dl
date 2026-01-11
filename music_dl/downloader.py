@@ -3,7 +3,7 @@ import shutil
 import urllib
 
 
-async def download_track(track_query: str, download_path: str = "downloads"):
+async def download_track(track_query: str, download_path: str = "_downloads"):
     """
     Downloads a track from YouTube using yt-dlp.
 
