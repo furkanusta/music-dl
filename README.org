@@ -2,6 +2,9 @@ Download random music from multiple sources:
 1. Reddit
 2. Last.fm (popular and new releases)
 3. Album of the Year (Monthly)
+4. Kral Muzik
+5. Karnaval Muzik
+6. TRT Muzik
 
 
 #+begin_src bash
@@ -15,3 +18,12 @@ Problems:
    list is not updated at a fine granularity and if the script stops for any reason, there is a good
    possibility that the titles are already added to the list and will be ignored the next time
 3. Relies on scraping and might get stuck at Cloudflare (RateYourMusic is constantly stuck)
+
+
+* TODO List
+  I doubt I'll go through these but just in case
+
+  + Add configuration (subreddit, playlist)
+  + Improve duplicate detection
+  + Handle errors better
+  + Handle Spotify Links
