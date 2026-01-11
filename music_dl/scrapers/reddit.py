@@ -16,7 +16,7 @@ class RedditScraper(Scraper):
     NUM_POSTS    = 25
     NUM_COMMENTS = 25
 
-    self.subreddits = [
+    subreddits = [
         ("ifyoulikeblank", "search.json?q=flair%3Amusic+OR+title%3Amusic&sort=top&restrict_sr=on&t=month"),
         # "listentothis",
         # "indieheads"

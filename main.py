@@ -60,8 +60,7 @@ async def main():
 
     tracks = remove_duplicates(tracks)
 
-    print(f"Found Tracks: {tracks}")
-    await download_all([tracks[0]])
+    await download_all(tracks)
 
     with shelve.open(".db/tracks") as db:
         for track in tracks:
