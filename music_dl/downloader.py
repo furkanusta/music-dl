@@ -25,9 +25,10 @@ async def download_track(track_query: str, download_path: str = "_downloads"):
         "--ignore-config",
         "--playlist-items", "1", # In case the link we got was already a playlist
         "--default-search", "ytsearch",
-        "--download-archive", "archive.txt"
-        "--output", f"{download_path}/%(title)s.%(ext)s",
-        "--simulate",
+        "--download-archive", "archive.txt",
+        "--paths", download_path,
+        "--output", f"%(title)s.%(ext)s",
+        "--no-progress",
         f"'{track_query}'",
     ]
 

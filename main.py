@@ -30,6 +30,8 @@ def remove_duplicates(tracks):
     """
     tracks = map(lambda x: x.lower(), tracks)
     tracks = list(set(tracks))
+    with shelve.open(".db/tracks") as db:
+        tracks = [track for track in tracks if track not in db]
     return tracks
 
 
@@ -59,6 +61,10 @@ async def main():
     tracks = remove_duplicates(tracks)
 
     await download_all(tracks)
+
+    with shelve.open(".db/tracks") as db:
+        for track in tracks:
+            db[track] = 1
 
 
 if __name__ == "__main__":
