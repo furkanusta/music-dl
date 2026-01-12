@@ -18,8 +18,8 @@ class RedditScraper(Scraper):
 
     subreddits = [
         ("ifyoulikeblank", "search.json?q=flair%3Amusic+OR+title%3Amusic&sort=top&restrict_sr=on&t=month"),
-        # "listentothis",
-        # "musicsuggestions",
+        "listentothis",
+        "musicsuggestions",
     ]
 
     async def get_posts(self) -> List[str]:
@@ -104,8 +104,8 @@ class RedditScraper(Scraper):
         """
         posts, links = await self.get_posts()
         posts        = posts[:self.NUM_POSTS]
-        # with shelve.open(".db/posts") as db:
-        #     posts = [post for post in posts if "/".join(post) not in db]
+        with shelve.open(".db/posts") as db:
+            posts = [post for post in posts if "/".join(post) not in db]
         comments = await self.get_comments(posts)
         tracks   = await self.get_tracks(comments)
         tracks.extend(links)
